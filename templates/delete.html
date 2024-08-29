@@ -1,0 +1,23 @@
+{% extends "base.html" %} <!-- Razširitev osnovne predloge -->
+
+{% block title %}Naloge.app &middot; {{ title }}{% endblock %} <!-- Naslov strani -->
+
+{% block content %}
+    <div class="col-8 offset-2 p-4 p-md-5 my-2">
+        <div class="card">
+            <div class="card-header text-white bg-dark">
+                <h3>Izbriši nalogo</h3> <!-- Naslov kartice -->
+            </div>
+
+            <div class="card-body">
+                <p>Ste prepričani, da želite izbrisati to nalogo?</p> <!-- Potrditev izbrisa -->
+                <form method="POST">
+                    {{ form.hidden_tag() }} <!-- Skriti obrazec -->
+                    {{ form.submit(class='btn btn-danger') }} <!-- Gumb za potrditev -->
+					<a href="/" class="btn btn-outline-secondary">Prekliči</a> <!-- Gumb za preklic -->
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

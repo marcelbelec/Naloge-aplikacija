@@ -1,0 +1,72 @@
+{% extends "base.html" %} <!-- Razširitev osnovne predloge -->
+
+{% block title %}Naloge &middot; Index{% endblock %} <!-- Naslov strani -->
+
+{% block content %}
+	<div class="p-4 p-md-5">
+		<div class="pb-4">
+			<form method="POST">
+				<div class="input-group">
+					{{ form.hidden_tag() }} <!-- Skriti obrazec -->
+					{{ form.title(class='form-control rounded-left border-secondary', placeholder='Vnesi nalogo, ki jo moraš opraviti.') }} <!-- Vnos naloge -->
+					<div class="input-group-append">
+						{{ form.submit(class='btn btn-secondary') }} <!-- Gumb za dodajanje -->
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<!-- Filtrirni gumbi -->
+		<div class="btn-group pb-2" role="group" aria-label="Filter">
+			<a href="/all" class="btn {% if filter == 'all' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">Vse</a>
+			<a href="/active" class="btn {% if filter == 'active' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">Aktivne</a>
+			<a href="/completed" class="btn {% if filter == 'completed' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">Zaključene</a>
+		</div>
+
+		<!-- Prikaz nalog -->
+		{% if data is defined and count > 0 %}
+			{% for item in data %}
+			<div id="task_{{ item.id }}" class="p-2 my-1 bg-light rounded">
+				<a id="status_{{ item.id }}" class="btn btn-sm {% if item.complete %}btn-secondary{% else %}btn-outline-secondary{% endif %} rounded-circle" href="javascript:setStatus({{ item.id }}, '{{ filter }}')"><span class="fa fa-check"></span></a>
+				<span class="pl-2 text-secondary">{{ item.title }}</span>
+				<a class="btn btn-sm btn-outline-danger rounded-circle pull-right" href="/task/delete/{{ item.id }}"><span class="fa fa-times"></span></a>
+			</div>
+			{% endfor %}
+		{% else %}
+		    <!-- Sporočila glede na filter -->
+		    {% if filter == 'all' %}
+				<div class="alert alert-success my-1">Na seznamu nimaš nalog.</div>
+			{% endif %}
+		    {% if filter == 'active' %}
+				<div class="alert alert-success my-1">Zaključil si vse naloge na seznamu.</div>
+			{% endif %}
+		    {% if filter == 'completed' %}
+				<div class="alert alert-danger my-1">Še vedno moraš dokončati vse naloge na seznamu.</div>
+			{% endif %}
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+// Funkcija 'setStatus' se kliče ob kliku na nalogo
+function setStatus(id, filter) {
+	// AJAX klic na URL /task/status/<id>/<filter>, obdelano s Flask
+	$.ajax({
+		url: '/task/status/' + id + '/' + filter,
+		success: function(result) {
+			// Če klic uspe, posodobimo del strani brez ponovnega nalaganja
+			if (filter == 'all') {
+				// Zamenjaj CSS razrede za odsev spremembe statusa
+				$('#status_' + id).toggleClass('btn-secondary');
+				$('#status_' + id).toggleClass('btn-outline-secondary');
+			}
+			if (filter == 'active' || filter == 'completed') {
+				// Če smo na strani 'Aktivne' ali 'Zaključene', odstranimo nalogo
+				$('#task_' + id).remove();
+			}
+		}
+	});
+}
+</script>
+{% endblock %}

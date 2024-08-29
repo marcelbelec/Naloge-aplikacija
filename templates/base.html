@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Opravila">
+    <meta name="author" content="Marcel Belec">
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Ikone -->
+    <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet">
+
+    <!-- Stil -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='home_icona.ico') }}" rel="shortcut icon">
+
+    <style>
+        body {
+            background-color: #f8f9fa; /* Svetlo sivo ozadje */
+        }
+        .blog-header {
+            background-color: #d1e7dd; /* Glava - svetlo modra */
+            color: #000000; /* Tekst - črn */
+        }
+        .blog-header a {
+            color: #000000; /* Povezave - črne */
+        }
+        .blog-header img {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Senca okoli slike */
+            background-color: transparent; /* Ozadje slike brez barve */
+        }
+        .card-header {
+            background-color: #b0bec5; /* Kartice - svetlo modra */
+            color: #ffffff; /* Tekst na karticah - bel */
+        }
+        .btn-secondary {
+            background-color: #8bc34a; /* Gumbi - svetlo zelena */
+            border-color: #8bc34a; /* Robovi gumbov - svetlo zelena */
+        }
+        .btn-outline-secondary {
+            color: #8bc34a; /* Barva teksta na gumbih - svetlo zelena */
+            border-color: #8bc34a; /* Barva robov na gumbih - svetlo zelena */
+        }
+        .btn-outline-danger {
+            color: #ff7043; /* Barva teksta na gumbih za brisanje - oranžna */
+            border-color: #ff7043; /* Barva robov na gumbih za brisanje - oranžna */
+        }
+    </style>
+</head>
+
+<body>
+
+  <header class="blog-header py-3">
+    <div class="row flex-nowrap justify-content-between align-items-center">
+      <div class="col-2 d-flex justify-content-start align-items-center align-self-end">
+        <a class="nav-link" href="/"><span class="fa fa-check-circle"></span> Naloge</a> 
+      </div>
+      <div class="col-8 text-center">
+        <img src="{{ url_for('static', filename='img/sticky-notes.png') }}" alt="Naloge Logo"> <!-- Glavna slika -->
+      </div>
+      <div class="col-2 d-flex justify-content-end align-items-center">
+        &nbsp; 
+      </div>
+    </div>
+  </header>
+
+<main role="main" class="container">
+
+{% block content %}{% endblock %} <!-- Glavna vsebina -->
+
+</main><!-- /Glavna vsebina -->
+
+
+<script src="{{ url_for('static', filename='js/jquery-3.5.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/popper-1.16.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+{% block javascript %}
+{% endblock %} <!-- Dodatni JavaScript -->
+
+</body>
+</html>
